@@ -1,10 +1,26 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php
 
+defined('BASEPATH') or exit('No direct script access allowed');
 
-date_default_timezone_set('America/Sao_Paulo');
+/**
+ * App current version
+ */
+$config['app_version'] = '4.52.0';
 
+/**
+ * Nome do sistema
+ */
+$config['app_name'] = $_ENV['APP_NAME'] ?? 'Map-OS';
 
-$config['app_version'] = '3.1.12';
+/**
+ * Descrição do sistema
+ */
+$config['app_subname'] = $_ENV['APP_SUBNAME'] ?? 'Sistema de Controle de Ordens de Serviço';
+
+/**
+ * Definição da hora local.
+ */
+date_default_timezone_set($_ENV['APP_TIMEZONE'] ?? 'America/Sao_Paulo');
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +44,7 @@ $config['app_version'] = '3.1.12';
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = '';
+$config['base_url'] = $_ENV['APP_BASEURL'] ?? 'http://localhost:8000/';
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +73,7 @@ $config['index_page'] = 'index.php';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']     = 'REQUEST_URI';
+$config['uri_protocol'] = 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -81,7 +97,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']     = 'english';
+$config['language'] = 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -94,7 +110,7 @@ $config['language']     = 'english';
 | See http://php.net/htmlspecialchars for a list of supported charsets.
 |
 */
-$config['charset'] = 'UTF-8';
+$config['charset'] = $_ENV['APP_CHARSET'] ?? 'UTF-8';
 
 /*
 |--------------------------------------------------------------------------
@@ -105,7 +121,7 @@ $config['charset'] = 'UTF-8';
 | setting this variable to TRUE (boolean).  See the user guide for details.
 |
 */
-$config['enable_hooks'] = false;
+$config['enable_hooks'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -141,7 +157,7 @@ $config['subclass_prefix'] = 'MY_';
 | Note: This will NOT disable or override the CodeIgniter-specific
 |	autoloading (application/config/autoload.php)
 */
-$config['composer_autoload'] = false;
+$config['composer_autoload'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -228,7 +244,7 @@ $config['allow_get_array'] = true;
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------
@@ -311,7 +327,8 @@ $config['cache_path'] = '';
 |	FALSE      = Disabled
 |	TRUE       = Enabled, take all query parameters into account.
 |	             Please be aware that this may result in numerous cache
-|	             files generated for the same page over and over again.
+|	             files generated for the same page over and over again
+|
 |	array('q') = Enabled, but only take into account the specified list
 |	             of query parameters.
 |
@@ -329,7 +346,7 @@ $config['cache_query_string'] = false;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = '6f;~d5df;.s.d.fwe';
+$config['encryption_key'] = $_ENV['APP_ENCRYPTION_KEY'];
 
 /*
 |--------------------------------------------------------------------------
@@ -382,13 +399,13 @@ $config['encryption_key'] = '6f;~d5df;.s.d.fwe';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver'] = 'database';
-$config['sess_cookie_name'] = 'app_session';
-$config['sess_expiration'] = 7200;
-$config['sess_save_path'] = 'ci_sessions';
-$config['sess_match_ip'] = false;
-$config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = false;
+$config['sess_driver'] = $_ENV['APP_SESS_DRIVER'] ?? 'database';
+$config['sess_cookie_name'] = $_ENV['APP_SESS_COOKIE_NAME'] ?? 'app_session';
+$config['sess_expiration'] = $_ENV['APP_SESS_EXPIRATION'] ?? 7200;
+$config['sess_save_path'] = $_ENV['APP_SESS_SAVE_PATH'] ?? 'ci_sessions';
+$config['sess_match_ip'] = isset($_ENV['APP_SESS_MATCH_IP']) ? filter_var($_ENV['APP_SESS_MATCH_IP'], FILTER_VALIDATE_BOOLEAN) : false;
+$config['sess_time_to_update'] = $_ENV['APP_SESS_TIME_TO_UPDATE'] ?? 300;
+$config['sess_regenerate_destroy'] = isset($_ENV['APP_SESS_REGENERATE_DESTROY']) ? filter_var($_ENV['APP_SESS_REGENERATE_DESTROY'], FILTER_VALIDATE_BOOLEAN) : false;
 
 /*
 |--------------------------------------------------------------------------
@@ -405,39 +422,11 @@ $config['sess_regenerate_destroy'] = false;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']    = '';
-$config['cookie_domain']    = '';
-$config['cookie_path']      = '/';
-$config['cookie_secure']    = false;
-$config['cookie_httponly']  = false;
-
-/*
-|--------------------------------------------------------------------------
-| Standardize newlines
-|--------------------------------------------------------------------------
-|
-| Determines whether to standardize newline characters in input data,
-| meaning to replace \r\n, \r, \n occurrences with the PHP_EOL value.
-|
-| WARNING: This feature is DEPRECATED and currently available only
-|          for backwards compatibility purposes!
-|
-*/
-$config['standardize_newlines'] = false;
-
-/*
-|--------------------------------------------------------------------------
-| Global XSS Filtering
-|--------------------------------------------------------------------------
-|
-| Determines whether the XSS filter is always active when GET, POST or
-| COOKIE data is encountered
-|
-| WARNING: This feature is DEPRECATED and currently available only
-|          for backwards compatibility purposes!
-|
-*/
-$config['global_xss_filtering'] = true;
+$config['cookie_prefix'] = $_ENV['APP_COOKIE_PREFIX'] ?? '';
+$config['cookie_domain'] = $_ENV['APP_COOKIE_DOMAIN'] ?? '';
+$config['cookie_path'] = $_ENV['APP_COOKIE_PATH'] ?? '/';
+$config['cookie_secure'] = isset($_ENV['APP_COOKIE_SECURE']) ? filter_var($_ENV['APP_COOKIE_SECURE'], FILTER_VALIDATE_BOOLEAN) : false;
+$config['cookie_httponly'] = isset($_ENV['APP_COOKIE_HTTPONLY']) ? filter_var($_ENV['APP_COOKIE_HTTPONLY'], FILTER_VALIDATE_BOOLEAN) : false;
 
 /*
 |--------------------------------------------------------------------------
@@ -453,12 +442,12 @@ $config['global_xss_filtering'] = true;
 | 'csrf_regenerate' = Regenerate token on every submission
 | 'csrf_exclude_uris' = Array of URIs which ignore CSRF checks
 */
-$config['csrf_protection'] = false;
-$config['csrf_token_name'] = 'csrf_test_name';
-$config['csrf_cookie_name'] = 'csrf_cookie_name';
-$config['csrf_expire'] = 7200;
-$config['csrf_regenerate'] = true;
-$config['csrf_exclude_uris'] = array();
+$config['csrf_protection'] = isset($_ENV['APP_CSRF_PROTECTION']) ? filter_var($_ENV['APP_CSRF_PROTECTION'], FILTER_VALIDATE_BOOLEAN) : true;
+$config['csrf_token_name'] = $_ENV['APP_CSRF_TOKEN_NAME'] ?? 'MAPOS_TOKEN';
+$config['csrf_cookie_name'] = $_ENV['APP_CSRF_COOKIE_NAME'] ?? 'MAPOS_COOKIE';
+$config['csrf_expire'] = $_ENV['APP_CSRF_EXPIRE'] ?? 7200;
+$config['csrf_regenerate'] = isset($_ENV['APP_CSRF_REGENERATE']) ? filter_var($_ENV['APP_CSRF_REGENERATE'], FILTER_VALIDATE_BOOLEAN) : true;
+$config['csrf_exclude_uris'] = ['api.*+'];
 
 /*
 |--------------------------------------------------------------------------
@@ -480,7 +469,7 @@ $config['csrf_exclude_uris'] = array();
 | by the output class.  Do not 'echo' any values with compression enabled.
 |
 */
-$config['compress_output'] = false;
+$config['compress_output'] = isset($_ENV['APP_COMPRESS_OUTPUT']) ? filter_var($_ENV['APP_COMPRESS_OUTPUT'], FILTER_VALIDATE_BOOLEAN) : false;
 
 /*
 |--------------------------------------------------------------------------
@@ -493,21 +482,7 @@ $config['compress_output'] = false;
 | helper' page of the user guide for information regarding date handling.
 |
 */
-$config['time_reference'] = 'local';
-
-/*
-|--------------------------------------------------------------------------
-| Rewrite PHP Short Tags
-|--------------------------------------------------------------------------
-|
-| If your PHP installation does not have short tag support enabled CI
-| can rewrite the tags on-the-fly, enabling you to utilize that syntax
-| in your view files.  Options are TRUE or FALSE (boolean)
-|
-| Note: You need to have eval() enabled for this to work.
-|
-*/
-$config['rewrite_short_tags'] = false;
+$config['time_reference'] = $_ENV['APP_TIMEZONE'] ?? 'America/Sao_Paulo';
 
 /*
 |--------------------------------------------------------------------------
@@ -525,4 +500,25 @@ $config['rewrite_short_tags'] = false;
 | Comma-separated:	'10.0.1.200,192.168.5.0/24'
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
-$config['proxy_ips'] = '';
+$config['proxy_ips'] = $_ENV['APP_PROXY_IPS'] ?? '';
+
+/*
+|--------------------------------------------------------------------------
+| Global XSS Filtering
+|--------------------------------------------------------------------------
+|
+| Determines whether the XSS filter is always active when GET, POST or
+| COOKIE data is encountered
+|
+| WARNING: This feature is DEPRECATED and currently available only
+|          for backwards compatibility purposes!
+|
+*/
+$config['global_xss_filtering'] = $_ENV['GLOBAL_XSS_FILTERING'] ? filter_var($_ENV['GLOBAL_XSS_FILTERING'], FILTER_VALIDATE_BOOLEAN) : true;
+
+/*
+|--------------------------------------------------------------------------
+| REST Handle Exceptions
+|--------------------------------------------------------------------------
+*/
+$config['rest_handle_exceptions'] = isset($_ENV['WHOOPS_ERROR_PAGE_ENABLED']) ? filter_var($_ENV['WHOOPS_ERROR_PAGE_ENABLED'], FILTER_VALIDATE_BOOLEAN) === false : true ;

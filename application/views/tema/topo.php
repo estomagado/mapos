@@ -1,228 +1,159 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
-<title>Map OS</title>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap.min.css" />
-<link rel="stylesheet" href="<?php echo base_url();?>assets/css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="<?php echo base_url();?>assets/css/matrix-style.css" />
-<link rel="stylesheet" href="<?php echo base_url();?>assets/css/matrix-media.css" />
-<link href="<?php echo base_url();?>assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link rel="stylesheet" href="<?php echo base_url();?>assets/css/fullcalendar.css" /> 
-
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
-<script type="text/javascript"  src="<?php echo base_url();?>assets/js/jquery-1.10.2.min.js"></script>
-
+  <title><?= $configuration['app_name'] ?: 'Map-OS' ?></title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token-name" content="<?= config_item("csrf_token_name") ?>">
+  <meta name="csrf-cookie-name" content="<?= config_item("csrf_cookie_name") ?>">
+  <link rel="shortcut icon" type="image/png" href="<?= base_url(); ?>assets/img/favicon.png" />
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-responsive.min.css" />
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/matrix-style.css" />
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/matrix-media.css" />
+  <link href="<?= base_url(); ?>assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/fullcalendar.css" />
+  <?php if ($configuration['app_theme'] == 'white') { ?>
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/tema-white.css" />
+  <?php } ?>
+  <?php if ($configuration['app_theme'] == 'puredark') { ?>
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/tema-pure-dark.css" />
+  <?php } ?>
+  <?php if ($configuration['app_theme'] == 'darkviolet') { ?>
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/tema-dark-violet.css" />
+  <?php } ?>
+  <?php if ($configuration['app_theme'] == 'darkorange') { ?>
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/tema-dark-orange.css" />
+  <?php } ?>
+  <?php if ($configuration['app_theme'] == 'whitegreen') { ?>
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/tema-white-green.css" />
+  <?php } ?>
+  <?php if ($configuration['app_theme'] == 'whiteblack') { ?>
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/tema-white-black.css" />
+  <?php } ?>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;500;700&display=swap' rel='stylesheet' type='text/css'>
+  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <script type="text/javascript" src="<?= base_url(); ?>assets/js/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="<?= base_url(); ?>assets/js/shortcut.js"></script>
+  <script type="text/javascript" src="<?= base_url(); ?>assets/js/funcoesGlobal.js"></script>
+  <script type="text/javascript" src="<?= base_url(); ?>assets/js/datatables.min.js"></script>
+  <script type="text/javascript" src="<?= base_url(); ?>assets/js/sweetalert.min.js"></script>
+  <script type="text/javascript" src="<?= base_url(); ?>assets/js/csrf.js"></script>
+  <script type="text/javascript">
+    shortcut.add("escape", function() {
+      location.href = '<?= base_url(); ?>';
+    });
+    shortcut.add("F1", function() {
+      location.href = '<?= site_url('clientes'); ?>';
+    });
+    shortcut.add("F2", function() {
+      location.href = '<?= site_url('produtos'); ?>';
+    });
+    shortcut.add("F3", function() {
+      location.href = '<?= site_url('servicos'); ?>';
+    });
+    shortcut.add("F4", function() {
+      location.href = '<?= site_url('os'); ?>';
+    });
+    //shortcut.add("F5", function() {});
+    shortcut.add("F6", function() {
+      location.href = '<?= site_url('vendas/adicionar'); ?>';
+    });
+    shortcut.add("F7", function() {
+      location.href = '<?= site_url('financeiro/lancamentos'); ?>';
+    });
+    shortcut.add("F8", function() {});
+    shortcut.add("F9", function() {});
+    shortcut.add("F10", function() {});
+    //shortcut.add("F11", function() {});
+    shortcut.add("F12", function() {});
+    window.BaseUrl = "<?= base_url() ?>";
+  </script>
 </head>
+
 <body>
-
-<!--Header-part-->
-<div id="header">
-  <h1><a href="">Map OS</a></h1>
-</div>
-<!--close-Header-part--> 
-
-<!--top-Header-menu-->
-<div id="user-nav" class="navbar navbar-inverse">
-  <ul class="nav">
-   
-    <li class=""><a title="" href="<?php echo site_url();?>/mapos/minhaConta"><i class="icon icon-star"></i> <span class="text">Minha Conta</span></a></li>
-    <li class=""><a title="" href="<?php echo site_url();?>/mine"><i class="icon icon-eye-open"></i> <span class="text">Área do Cliente</span></a></li>
-    <li class="pull-right"><a href="https://github.com/RamonSilva20/mapos" target="_blank"><i class="icon icon-asterisk"></i> <span class="text">Versão: <?php echo $this->config->item('app_version'); ?></span></a></li>
-    <li class=""><a title="" href="<?php echo site_url();?>/mapos/sair"><i class="icon icon-share-alt"></i> <span class="text">Sair do Sistema</span></a></li>
-    
-  </ul>
-
-</div>
-
-<!--start-top-serch-->
-<div id="search">
-  <form action="<?php echo base_url()?>index.php/mapos/pesquisar">
-    <input type="text" name="termo" placeholder="Pesquisar..."/>
-    <button type="submit"  class="tip-bottom" title="Pesquisar"><i class="icon-search icon-white"></i></button>
-    
-  </form>
-</div>
-<!--close-top-serch--> 
-
-<!--sidebar-menu-->
-
-<div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-list"></i> Menu</a>
-  <ul>
-
-
-    <li class="<?php if (isset($menuPainel)) {
-        echo 'active';
-
-};?>"><a href="<?php echo base_url()?>"><i class="icon icon-home"></i> <span>Dashboard</span></a></li>
-    
-    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vCliente')) { ?>
-        <li class="<?php if (isset($menuClientes)) {
-            echo 'active';
-
-};?>"><a href="<?php echo base_url()?>index.php/clientes"><i class="icon icon-group"></i> <span>Clientes</span></a></li>
-    <?php } ?>
-    
-    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vProduto')) { ?>
-        <li class="<?php if (isset($menuProdutos)) {
-            echo 'active';
-
-};?>"><a href="<?php echo base_url()?>index.php/produtos"><i class="icon icon-barcode"></i> <span>Produtos</span></a></li>
-    <?php } ?>
-    
-    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vServico')) { ?>
-        <li class="<?php if (isset($menuServicos)) {
-            echo 'active';
-
-};?>"><a href="<?php echo base_url()?>index.php/servicos"><i class="icon icon-wrench"></i> <span>Serviços</span></a></li>
-    <?php } ?>
-
-    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vOs')) { ?>
-        <li class="<?php if (isset($menuOs)) {
-            echo 'active';
-
-};?>"><a href="<?php echo base_url()?>index.php/os"><i class="icon icon-tags"></i> <span>Ordens de Serviço</span></a></li>
-    <?php } ?>
-
-    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vVenda')) { ?>
-        <li class="<?php if (isset($menuVendas)) {
-            echo 'active';
-
-};?>"><a href="<?php echo base_url()?>index.php/vendas"><i class="icon icon-shopping-cart"></i> <span>Vendas</span></a></li>
-    <?php } ?>
-    
-    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vArquivo')) { ?>
-        <li class="<?php if (isset($menuArquivos)) {
-            echo 'active';
-
-};?>"><a href="<?php echo base_url()?>index.php/arquivos"><i class="icon icon-hdd"></i> <span>Arquivos</span></a></li>
-    <?php } ?>
-
-    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vLancamento')) { ?>
-        <li class="submenu <?php if (isset($menuFinanceiro)) {
-            echo 'active open';
-
-};?>">
-          <a href="#"><i class="icon icon-money"></i> <span>Financeiro</span> <span class="label"><i class="icon-chevron-down"></i></span></a>
-          <ul>
-            <li><a href="<?php echo base_url()?>index.php/financeiro/lancamentos">Lançamentos</a></li>
+  <!--top-Header-menu-->
+  <div class="navebarn">
+    <div id="user-nav" class="navbar navbar-inverse">
+      <ul class="nav">
+        <li class="dropdown">
+          <a href="#" class="tip-right dropdown-toggle" data-toggle="dropdown" title="Perfis"><i class='bx bx-user-circle iconN'></i><span class="text"></span></a>
+          <ul class="dropdown-menu">
+            <li class=""><a title="Área do Cliente" href="<?= site_url(); ?>/mine" target="_blank"> <span class="text">Área do Cliente</span></a></li>
+            <li class=""><a title="Meu Perfil" href="<?= site_url('mapos/minhaConta'); ?>"><span class="text">Meu Perfil</span></a></li>
+            <li class="divider"></li>
+            <li class=""><a title="Sair do Sistema" href="<?= site_url('login/sair'); ?>"><i class='bx bx-log-out-circle'></i> <span class="text">Sair do Sistema</span></a></li>
           </ul>
         </li>
-    <?php } ?>
-
-    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'rCliente') || $this->permission->checkPermission($this->session->userdata('permissao'), 'rProduto') || $this->permission->checkPermission($this->session->userdata('permissao'), 'rServico') || $this->permission->checkPermission($this->session->userdata('permissao'), 'rOs') || $this->permission->checkPermission($this->session->userdata('permissao'), 'rFinanceiro') || $this->permission->checkPermission($this->session->userdata('permissao'), 'rVenda')) { ?>
-        
-        <li class="submenu <?php if (isset($menuRelatorios)) {
-            echo 'active open';
-
-};?>" >
-          <a href="#"><i class="icon icon-list-alt"></i> <span>Relatórios</span> <span class="label"><i class="icon-chevron-down"></i></span></a>
-          <ul>
-
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'rCliente')) { ?>
-                <li><a href="<?php echo base_url()?>index.php/relatorios/clientes">Clientes</a></li>
-            <?php } ?>
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'rProduto')) { ?>
-                <li><a href="<?php echo base_url()?>index.php/relatorios/produtos">Produtos</a></li>
-            <?php } ?>
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'rServico')) { ?>
-                <li><a href="<?php echo base_url()?>index.php/relatorios/servicos">Serviços</a></li>
-            <?php } ?>
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'rOs')) { ?>
-                 <li><a href="<?php echo base_url()?>index.php/relatorios/os">Ordens de Serviço</a></li>
-            <?php } ?>
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'rVenda')) { ?>
-                <li><a href="<?php echo base_url()?>index.php/relatorios/vendas">Vendas</a></li>
-            <?php } ?>
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'rFinanceiro')) { ?>
-                <li><a href="<?php echo base_url()?>index.php/relatorios/financeiro">Financeiro</a></li>
-            <?php } ?>
-            
+        <li class="dropdown">
+          <a href="#" class="tip-right dropdown-toggle" data-toggle="dropdown" title="Relatórios"><i class='bx bx-pie-chart-alt-2 iconN'></i><span class="text"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="<?= site_url('relatorios/clientes') ?>">Clientes</a></li>
+            <li><a href="<?= site_url('relatorios/produtos') ?>">Produtos</a></li>
+            <li><a href="<?= site_url('relatorios/servicos') ?>">Serviços</a></li>
+            <li><a href="<?= site_url('relatorios/os') ?>">Ordens de Serviço</a></li>
+            <li><a href="<?= site_url('relatorios/vendas') ?>">Vendas</a></li>
+            <li><a href="<?= site_url('relatorios/financeiro') ?>">Financeiro</a></li>
+            <li><a href="<?= site_url('relatorios/sku') ?>">SKU</a></li>
+            <li><a href="<?= site_url('relatorios/receitasBrutasMei') ?>">Receitas Brutas - MEI</a></li>
           </ul>
         </li>
-
-    <?php } ?>
-
-    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'cUsuario')  || $this->permission->checkPermission($this->session->userdata('permissao'), 'cEmitente') || $this->permission->checkPermission($this->session->userdata('permissao'), 'cPermissao') || $this->permission->checkPermission($this->session->userdata('permissao'), 'cBackup')) { ?>
-        <li class="submenu <?php if (isset($menuConfiguracoes)) {
-            echo 'active open';
-
-};?>">
-          <a href="#"><i class="icon icon-cog"></i> <span>Configurações</span> <span class="label"><i class="icon-chevron-down"></i></span></a>
-          <ul>
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'cUsuario')) { ?>
-                <li><a href="<?php echo base_url()?>index.php/usuarios">Usuários</a></li>
-            <?php } ?>
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'cEmitente')) { ?>
-                <li><a href="<?php echo base_url()?>index.php/mapos/emitente">Emitente</a></li>
-            <?php } ?>
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'cPermissao')) { ?>
-                <li><a href="<?php echo base_url()?>index.php/permissoes">Permissões</a></li>
-            <?php } ?>
-            <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'cBackup')) { ?>
-                <li><a href="<?php echo base_url()?>index.php/mapos/backup">Backup</a></li>
-            <?php } ?>
- 
+        <li class="dropdown">
+          <a href="#" class="tip-right dropdown-toggle" data-toggle="dropdown" title="Configurações"><i class='bx bx-cog iconN'></i><span class="text"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="<?= site_url('mapos/configurar') ?>">Sistema</a></li>
+            <li><a href="<?= site_url('usuarios') ?>">Usuários</a></li>
+            <li><a href="<?= site_url('mapos/emitente') ?>">Emitente</a></li>
+            <li><a href="<?= site_url('permissoes') ?>">Permissões</a></li>
+            <li><a href="<?= site_url('auditoria') ?>">Auditoria</a></li>
+            <li><a href="<?= site_url('mapos/emails') ?>">Emails</a></li>
+            <li><a href="<?= site_url('mapos/backup') ?>">Backup</a></li>
           </ul>
         </li>
-    <?php } ?>
-    
-    
-  </ul>
-</div>
-<div id="content">
-  <div id="content-header">
-    <div id="breadcrumb"> <a href="<?php echo base_url()?>" title="Dashboard" class="tip-bottom"><i class="icon-home"></i> Dashboard</a> <?php if ($this->uri->segment(1) != null) {
-?><a href="<?php echo base_url().'index.php/'.$this->uri->segment(1)?>" class="tip-bottom" title="<?php echo ucfirst($this->uri->segment(1));?>"><?php echo ucfirst($this->uri->segment(1));?></a> <?php if ($this->uri->segment(2) != null) {
-?><a href="<?php echo base_url().'index.php/'.$this->uri->segment(1).'/'.$this->uri->segment(2).'/'.$this->uri->segment(3) ?>" class="current tip-bottom" title="<?php echo ucfirst($this->uri->segment(2)); ?>"><?php echo ucfirst($this->uri->segment(2));
-} ?></a> <?php
-}?></div>
-  </div>
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span12">
-            <?php if ($this->session->flashdata('error') != null) {?>
-                            <div class="alert alert-danger">
-                              <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <?php echo $this->session->flashdata('error');?>
-                           </div>
-                        <?php }?>
+      </ul>
+    </div>
 
-                        <?php if ($this->session->flashdata('success') != null) {?>
-                            <div class="alert alert-success">
-                              <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                <?php echo $this->session->flashdata('success');?>
-                           </div>
-                        <?php }?>
-                          
-                        <?php if (isset($view)) {
-                            echo $this->load->view($view, null, true);
-}?>
+    <!-- New User -->
+    <div id="userr" style="padding-right:45px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;">
+      <div class="user-names userT0">
+        <?php
+        function saudacao()
+        {
+          $hora = date('H');
+          if ($hora >= 00 && $hora < 12) {
+            return 'Bom dia, ';
+          } elseif ($hora >= 12 && $hora < 18) {
+            return 'Boa tarde, ';
+          } else {
+            return 'Boa noite, ';
+          }
+        }
 
-
+        $login = '';
+        echo saudacao($login); // Irá retornar conforme o horário
+        ?>
       </div>
+      <div class="userT"><?= $this->session->userdata('nome_admin') ?></div>
+
+      <section class="sec_profile">
+        <div class="profile">
+          <div class="profile-img">
+            <a href="<?= site_url('mapos/minhaConta'); ?>"><img src="<?= !is_file(FCPATH . "assets/userImage/" . $this->session->userdata('url_image_user_admin')) ?  base_url() . "assets/img/User.png" : base_url() . "assets/userImage/" . $this->session->userdata('url_image_user_admin') ?>" alt=""></a>
+          </div>
+        </div>
+      </section>
+
     </div>
   </div>
-</div>
-<!--Footer-part-->
-<div class="row-fluid">
-  <div id="footer" class="span12"> <a href="https://github.com/RamonSilva20/mapos" target="_blank"><?php echo date('Y'); ?> &copy; MAP OS - Ramon Silva </a></div>
-</div>
-<!--end-Footer-part-->
+  <!-- End User -->
 
-
-<script src="<?php echo base_url();?>assets/js/bootstrap.min.js"></script> 
-<script src="<?php echo base_url();?>assets/js/matrix.js"></script> 
-
-
-</body>
-</html>
-
-
-
-
-
-
-
+  <!--start-top-serch-->
+  <div style="display: none" id="search">
+    <form action="<?= site_url('mapos/pesquisar') ?>">
+      <input type="text" name="termo" placeholder="Pesquisar..." />
+      <button type="submit" class="tip-bottom" title="Pesquisar"><i class="fas fa-search fa-white"></i></button>
+    </form>
+  </div>
+  <!--close-top-serch-->

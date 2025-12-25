@@ -1,4 +1,6 @@
-<?php  if (! defined('BASEPATH')) {
+<?php
+
+if (! defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 /*
@@ -39,8 +41,7 @@
 |
 */
 
-$autoload['packages'] = array();
-
+$autoload['packages'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -54,8 +55,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database','session','permission');
-
+$autoload['libraries'] = ['database', 'session', 'permission'];
 
 /*
 | -------------------------------------------------------------------
@@ -66,8 +66,7 @@ $autoload['libraries'] = array('database','session','permission');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url');
-
+$autoload['helper'] = ['url', 'audit', 'date', 'dd', 'validation', 'general', 'captcha'];
 
 /*
 | -------------------------------------------------------------------
@@ -82,8 +81,7 @@ $autoload['helper'] = array('url');
 |
 */
 
-$autoload['config'] = array();
-
+$autoload['config'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -98,8 +96,7 @@ $autoload['config'] = array();
 |
 */
 
-$autoload['language'] = array();
-
+$autoload['language'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -111,8 +108,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
-
+$autoload['model'] = [];
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

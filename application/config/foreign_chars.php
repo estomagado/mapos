@@ -1,4 +1,6 @@
-<?php  if (! defined('BASEPATH')) {
+<?php
+
+if (! defined('BASEPATH')) {
     exit('No direct script access allowed');
 }
 /*
@@ -9,7 +11,7 @@
 | conversion used by the Text helper
 |
 */
-$foreign_characters = array(
+$foreign_characters = [
     '/ä|æ|ǽ/' => 'ae',
     '/ö|œ/' => 'oe',
     '/ü/' => 'ue',
@@ -55,12 +57,12 @@ $foreign_characters = array(
     '/Ź|Ż|Ž/' => 'Z',
     '/ź|ż|ž/' => 'z',
     '/Æ|Ǽ/' => 'AE',
-    '/ß/'=> 'ss',
+    '/ß/' => 'ss',
     '/Ĳ/' => 'IJ',
     '/ĳ/' => 'ij',
     '/Œ/' => 'OE',
-    '/ƒ/' => 'f'
-);
+    '/ƒ/' => 'f',
+];
 
 /* End of file foreign_chars.php */
 /* Location: ./application/config/foreign_chars.php */
